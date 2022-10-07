@@ -1,11 +1,12 @@
-(ns lorrem.app
-  (:require [cljs-http.client :as http]
+(ns lorrem.app 
+  (:require [cljs-http.client :as http ]
             [cljs.core.async :refer [<!]]
             [clojure.string :as string]
             [goog.dom :as gdom]
             [dommy.core :as dommy :refer-macros [sel sel1]]
             [hipo.core :as hipo])
   (:require-macros [cljs.core.async.macros :refer [go]]))
+
 
 (defn capitalize-first-letter [s]
   (str (string/capitalize (first s)) (subs s 1)))
@@ -23,26 +24,27 @@
   (.preventDefault event)
   (write-lorr-to-clipboard))
 
+(defn select-lorr-node-content [range event]
+  (.selectNodeContents range (.-lastChild (.-parentElement (.-target event))))
+  (let [selection (.getSelection (gdom/getDocument))]
+    (.removeAllRanges selection)
+    (.addRange selection range)))
+
 (defn select-lorr [event]
-  (let [range (.createRange (gdom/getDocument))]
-    (js/console.log (.-lastChild (.-parentElement (.-target event))))
-    (.selectNodeContents range (.-lastChild (.-parentElement (.-target event))))
-    (let [selection (.getSelection (gdom/getDocument))]
-      (.removeAllRanges selection)
-      (.addRange (.getSelection (gdom/getDocument)) range))) 
+  (select-lorr-node-content (.createRange (gdom/getDocument)) event)
   (write-lorr-to-clipboard))
 
-(defn create-new-lorr [s]
-  (dommy/append! 
-   (sel1 :#lorrem-list) 
-   (hipo/create 
-    [:li {:on-copy handle-copy} 
-     [:img {:src "images/bug.svg" :on-click select-lorr}] 
-     (format-lorr s)])))
+(defn create-lorr-html-element [s]
+  (hipo/create
+   [:li {:on-copy handle-copy}
+    [:img {:src "images/bug.svg" :on-click select-lorr}]
+    (format-lorr s)]))
 
-;; Switch make-remote-call to this in development
-;;(defn mock-remote-call [endpoint]
-;;  (doall (map create-new-lorr ["              test string :D" "Another Test STRING.   "])))
+(defn create-new-lorr [s]
+  (dommy/append! (sel1 :#lorrem-list) (create-lorr-html-element s)) 
+)
+(defn mock-remote-call []
+  (doall (map create-new-lorr ["              test string :D" "Another Test STRING.   "])))
 
 (defn make-remote-call [endpoint]
   (go (let [response (<! (http/get endpoint
@@ -52,4 +54,6 @@
         (doall (map create-new-lorr (:lorrem (:body response)))))))
 
 (defn init []
-  (make-remote-call "ADD CORRECT API ENDPOINT HERE"))
+  (if goog.DEBUG
+    (mock-remote-call)
+    (make-remote-call "ADD CORRECT API ENDPOINT HERE")))

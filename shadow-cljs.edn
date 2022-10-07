@@ -13,7 +13,9 @@
  :builds
  {:lorrem
   {:target :browser
-   :modules {:main {:init-fn lorrem.app/init}}
-   :build-hooks
+   :modules {:main {:init-fn lorrem.app/init}} 
+   :compiler-options 
+   {:warnings {:redef false}} ;; suppress warnings from cljs-http 
+   :build-hooks 
    [(shadow.html/copy-file "src/static/index.html" "public/index.html")
     (shadow.html/copy-file "src/static/jira.css" "public/css/jira.css")]}}}
