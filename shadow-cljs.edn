@@ -1,11 +1,12 @@
 ;; shadow-cljs configuration
 {:source-paths
- ["src/utils"
-  "src/main"
+ ["src/main"
   "src/test"]
 
  :dependencies
- [[cljs-http "0.1.46"]]
+ [[cljs-http "0.1.46"]
+  [prismatic/dommy "1.1.0"]
+  [hipo "0.5.2"]]
 
 
  :dev-http {8080 "public"}

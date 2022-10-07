@@ -3,7 +3,8 @@
             [cljs.core.async :refer [<!]]
             [clojure.string :as string]
             [goog.dom :as gdom]
-            [goog.events :as events])
+            [dommy.core :as dommy :refer-macros [sel sel1]]
+            [hipo.core :as hipo])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defn capitalize-first-letter [s]
@@ -32,15 +33,12 @@
   (write-lorr-to-clipboard))
 
 (defn create-new-lorr [s]
-  (let [lorr (gdom/createElement "li")]
-    (gdom/setTextContent lorr (format-lorr s))
-    (gdom/appendChild (.querySelector js/document "#lorrem-list") lorr)
-    (events/listen lorr "copy" handle-copy)
-
-    (let [icon (gdom/createElement "img")]
-      (gdom/setProperties icon (clj->js {"src" "images/bug.svg"})) 
-      (gdom/insertChildAt lorr icon 0)
-      (events/listen icon "click" select-lorr))))
+  (dommy/append! 
+   (sel1 :#lorrem-list) 
+   (hipo/create 
+    [:li {:on-copy handle-copy} 
+     [:img {:src "images/bug.svg" :on-click select-lorr}] 
+     (format-lorr s)])))
 
 ;; Switch make-remote-call to this in development
 ;;(defn mock-remote-call [endpoint]
