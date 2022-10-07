@@ -1,0 +1,20 @@
+;; shadow-cljs configuration
+{:source-paths
+ ["src/dev"
+  "src/main"
+  "src/test"]
+
+ :dependencies
+ [[cljs-http "0.1.46"]]
+
+
+ :dev-http {8080 "public"}
+ :builds
+ {:lorrem
+  {:target :browser
+   :modules {:main {:init-fn lorrem.app/init}}
+   :build-hooks
+   [(shadow.html/copy-file "src/static/index.html" "public/index.html")
+    (shadow.html/copy-file "src/static/jira_header.png" "public/images/jira_header.png")
+    (shadow.html/copy-file "src/static/bug.svg" "public/images/bug.svg")
+    (shadow.html/copy-file "src/static/jira.css" "public/css/jira.css")]}}}

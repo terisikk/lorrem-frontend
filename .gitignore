@@ -1,0 +1,9 @@
+.devcontainer/
+.clj-kondo/
+?/
+.m2/
+.shadow-cljs/
+public/
+.cpcache/
+.lsp/
+node_modules/
