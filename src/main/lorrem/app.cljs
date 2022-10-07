@@ -51,8 +51,6 @@
                                    {:with-credentials? false
                                     :headers {"Authorization"
                                               "ADD CORRECT TOKEN HERE"}}))]
-        ;;enjoy your data
-        (js/console.log (clj->js (:body response)))
         (doall (map create-new-lorr (:lorrem (:body response)))))))
 
 (defn init []
