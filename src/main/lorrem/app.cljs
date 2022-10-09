@@ -4,8 +4,7 @@
             [clojure.string :as string]
             [goog.dom :as gdom]
             [dommy.core :as dommy :refer-macros [sel sel1]]
-            [hipo.core :as hipo]
-            [clojure.string :as s])
+            [hipo.core :as hipo])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 
