@@ -4,15 +4,19 @@
             [clojure.string :as string]
             [goog.dom :as gdom]
             [dommy.core :as dommy :refer-macros [sel sel1]]
-            [hipo.core :as hipo])
+            [hipo.core :as hipo]
+            [clojure.string :as s])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 
 (defn capitalize-first-letter [s]
   (str (string/capitalize (first s)) (subs s 1)))
 
+(defn add-dot-to-end-if-needed [s]
+  (if-not (string/ends-with? s ".") (str s ".") s))
+
 (defn format-lorr [s]
-  (capitalize-first-letter (string/trim s)))
+  (str (add-dot-to-end-if-needed (capitalize-first-letter (string/trim s))))) 
 
 (defn selection-with-lorr-tag []
   (str "[LÖR] " (.getSelection (gdom/getDocument))))
@@ -43,6 +47,7 @@
 (defn create-new-lorr [s]
   (dommy/append! (sel1 :#lorrem-list) (create-lorr-html-element s)) 
 )
+
 (defn mock-remote-call []
   (doall (map create-new-lorr ["              test string :D" "Another Test STRING.   "])))
 
