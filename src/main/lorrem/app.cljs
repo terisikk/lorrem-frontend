@@ -3,7 +3,7 @@
             [cljs.core.async :refer [<!]]
             [clojure.string :as string]
             [goog.dom :as gdom]
-            [dommy.core :as dommy :refer-macros [sel sel1]]
+            [dommy.core :as dommy :refer-macros [sel1]]
             [hipo.core :as hipo])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
@@ -40,7 +40,7 @@
 (defn create-lorr-html-element [s]
   (hipo/create
    [:li {:on-copy handle-copy}
-    [:img {:src "images/bug.svg" :on-click select-lorr}]
+    [:img {:src "images/bug.svg" :on-click select-lorr :tabindex 1 :on-focus select-lorr}]
     (format-lorr s)]))
 
 (defn create-new-lorr [s]
