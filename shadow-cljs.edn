@@ -13,9 +13,10 @@
  :builds
  {:lorrem
   {:target :browser
-   :modules {:main {:init-fn lorrem.app/init}} 
-   :compiler-options 
+   :modules {:main {:init-fn lorrem.app/init}}
+   :closure-defines {lorrem.app/API_URL #env "API_URL" lorrem.app/API_AUTH #env "API_AUTH"}
+   :compiler-options
    {:warnings {:redef false}} ;; suppress warnings from cljs-http 
-   :build-hooks 
+   :build-hooks
    [(shadow.html/copy-file "src/static/index.html" "public/index.html")
     (shadow.html/copy-file "src/static/jira.css" "public/css/jira.css")]}}}

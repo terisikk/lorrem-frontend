@@ -6,7 +6,10 @@ RUN apt-get -y install nodejs
 WORKDIR /app/
 COPY ./ /app
 RUN npm config set user 0 && npm config set unsafe-perm true && npm install
-RUN npx shadow-cljs release lorrem
+
+RUN --mount=type=secret,id=api_config \
+    && source /run/secrets/api_config
+    && npx shadow-cljs release lorrem
 
 FROM nginx:alpine
 
