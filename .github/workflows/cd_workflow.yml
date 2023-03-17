@@ -7,6 +7,8 @@ on: # rebuild any PRs and main branch changes
 jobs:
   build-and-publish:
     steps:
+      - runs-on: ubuntu-latest
+      - name: "Docker image build & publish"
       - uses: actions/checkout@v3
       - uses: docker/login-action@v2
         with:
