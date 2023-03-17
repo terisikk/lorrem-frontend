@@ -24,4 +24,4 @@ jobs:
           cache-to: type=inline
           tags: ${{ secrets.DOCKER_REGISTRY }}/lorrem-frontend:latest
           secrets: |
-            'api_config=${{ secrets.API_CONFIG }}'
+            api_config.edn=${{ secrets.API_CONFIG }}
