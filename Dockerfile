@@ -8,8 +8,7 @@ COPY ./ /app
 RUN npm config set user 0 && npm config set unsafe-perm true && npm install
 
 RUN --mount=type=secret,id=api_config \
-    source /run/secrets/api_config && \
-    npx shadow-cljs release lorrem
+    npx shadow-cljs release lorrem --config-merge /run/secrets/api_config
 
 FROM nginx:alpine
 
