@@ -1,4 +1,4 @@
-FROM clojure:latest AS builder
+FROM clojure@sha256:b2476ab3f6fb868e7aed7ae1a7e0c216209bec254868cd41c0b0af873ea30995 AS builder
 
 RUN curl -sL https://deb.nodesource.com/setup_16.x  | bash -
 RUN apt-get -y update && apt-get -y install nodejs
